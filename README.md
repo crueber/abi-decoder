@@ -1,16 +1,16 @@
-# abi-decoder
-Nodejs and Javascript library for decoding data params and events from etherem transactions
+# eth-abi-utils
+
+This repo is heavily inspired by consensys/abi-decoder. I essentially rewrote most of the fundamentals, but the algorithm is similar enough that I don't feel comfortable re-licensing it. So I will be keeping PR's open to abi-decoder to fulfill the GPL3 license.
 
 # Install
 ```
-npm install abi-decoder
-bower install abi-decoder
+npm install eth-abi-utils
+bower install eth-abi-utils
 ```
 
 # Instantiate
 ```js
-<script src="bower_components/abi-decoder/dist/abi-decoder.js"> // Javascript
-const abiDecoder = require('abi-decoder'); // NodeJS
+const abiDecoder = require('eth-abi-utils');
 ```
 
 You can also create new instances of the decoder if you need to:
