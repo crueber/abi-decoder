@@ -16,9 +16,13 @@ class AbiDecoder {
     this.savedABIs = [];
     this.methodIDs = {};
   }
-  instance() { return new AbiDecoder(); }
   getABIs() { return this.savedABIs; }
   getMethodIDs() { return this.methodIDs; }
+  instance(abi) {
+    const inst = new AbiDecoder();
+    if (abi) inst.addABI(abi);
+    return inst;
+  }
   addABI(abiArray) {
     if (abiArray && Array.isArray(abiArray)) {
       abiArray.map((abi) => {
@@ -111,9 +115,15 @@ class AbiDecoder {
 
         return event;
       });
-      // console.log(JSON.stringify({ name: method.name, events, address, blockNumber, transactionHash },null,2));
       return { name: method.name, events, address, blockNumber, transactionHash };
     });    
+  }
+  doesBytecodeFulfillAbi(bytecode) {
+    const signatures = Object.values(this.methodIDs);
+    for (let i = 0; i < signatures.length; i++) {
+      if (bytecode.indexOf(signatures[i]) === -1) return false;
+    }
+    return true;
   }
 }
 
