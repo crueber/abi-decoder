@@ -109,7 +109,7 @@ class AbiDecoder {
         }
 
         if (param.type == "address") {
-          event.value = padZeros(toBN(event.value).toString(16));
+          event.value = padZeros(toBN(event.value || 0).toString(16));
         } else if (param.type == "uint256" || param.type == "uint8" || param.type == "int" ) {
           event.value = toBN(event.value).toString(10);
         }
