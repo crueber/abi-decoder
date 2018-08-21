@@ -81,9 +81,10 @@ class AbiDecoder {
     }
   }
   decodeLogs(logs) {
+    const methodIDs = this.methodIDs;
     return logs.map(({topics, data, address, blockNumber, transactionHash}) => {
       const methodID = topics[0].slice(2);
-      const method = this.methodIDs[methodID];
+      const method = methodIDs[methodID];
       if (!method) return;
       
       const dataTypes = method.inputs.map(function (input) {
