@@ -120,7 +120,7 @@ class AbiDecoder {
     });    
   }
   doesBytecodeFulfillAbi(bytecode) {
-    const signatures = Object.values(this.methodIDs);
+    const signatures = Object.keys(this.methodIDs);
     for (let i = 0; i < signatures.length; i++) {
       if (bytecode.indexOf(signatures[i]) === -1) return false;
     }
