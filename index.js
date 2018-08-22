@@ -27,7 +27,8 @@ class AbiDecoder {
     if (abiArray && Array.isArray(abiArray)) {
       abiArray.map((abi) => {
         if (abi.name) {
-          const signature = sha3(abi.name + "(" + abi.inputs.map(function(input) { return input.type; }).join(",") + ")");
+          if (!abi.sig) abi.sig = `${abi.name}(${abi.inputs.map(i => i.type).join(",")})`;
+          const signature = sha3(abi.sig);
           if (abi.type == "event") this.methodIDs[signature.slice(2)] = abi;
           else this.methodIDs[signature.slice(2, 10)] = abi;
         }
@@ -118,6 +119,16 @@ class AbiDecoder {
       });
       return { name: method.name, events, address, blockNumber, transactionHash };
     });    
+  }
+  decodeSigs(bytecode) {
+    const sigs = [];
+    const signatures = Object.keys(this.methodIDs);
+    for (let i = 0; i < signatures.length; i++) {
+      if (bytecode.indexOf(signatures[i]) !== -1) {
+        sigs.push(this.methodIDs[signatures[i]].sig)
+      }
+    }
+    return sigs;
   }
   doesBytecodeFulfillAbi(bytecode) {
     const signatures = Object.keys(this.methodIDs);
